@@ -72,41 +72,44 @@ export const InscribleProvider = ({ children }) => {
 
       setContract(_contract);
 
-      console.log("Connect wallet called !!!");
       const friendLists = await _contract.getMyFriendList();
       setFriendLists(friendLists);
-      console.log(friendLists);
     } catch (error) {
       console.log(error);
     }
   };
+
   //ADD YOUR FRIENDS
-const addFriends = async ({ name, accountAddress }) => {
-  try {
+  const addFriends = async ({ name, accountAddress }) => {
+    try {
 
-    // const contract = await ConnectWallet();
-    const addMyFriend = await contract.addFriend(accountAddress, name);
-    await addMyFriend.wait();
-  
-  } catch (error) {
-    setError("Something went wrong while adding friends, try again");
-  }
-};
-const removeFriends = async ({ name, accountAddress }) => {
-  try {
-    // const contract = await ConnectWallet();
-    const removeMyFriend = await contract.removeFriend(accountAddress);
-    await removeMyFriend.wait();
-  } catch (error) {
-    setError("Something went wrong while adding friends, try again");
-  }
-};
+      // const contract = await ConnectWallet();
+      const addMyFriend = await contract.addFriend(accountAddress, name);
+      await addMyFriend.wait();
+    
+    } catch (error) {
+      setError("Something went wrong while adding friends, try again");
+    }
+  };
 
+  //REMOVE FRIENDS
+  const removeFriends = async ({ name, accountAddress }) => {
+    try {
+      // const contract = await ConnectWallet();
+      const removeMyFriend = await contract.removeFriend(accountAddress);
+      await removeMyFriend.wait();
+    } catch (error) {
+      setError("Something went wrong while adding friends, try again");
+    }
+  };
+
+  //TO REGISTER USER
   const RegisterUser = async (username) => {
     const createdUser = await contract.createAccount(username);
     await createdUser.wait();
   };
 
+  //VALIDATE USER REGISTERATION
   const CheckIfUserIsRegistered = async (account) => {
     const isUser = await contract.checkUser(account);
     if (isUser) {
@@ -128,8 +131,6 @@ const removeFriends = async ({ name, accountAddress }) => {
     const userList = await contract.getAllAppUser();
     // console.log(userList[1].accountAddress);
     setUserLists(userList);
-
-    console.log("userList");
 
     setIsLoading(false);
   };
@@ -164,13 +165,8 @@ const removeFriends = async ({ name, accountAddress }) => {
   };
 
   const GetPostByUser = async (address) => {
-    console.log(contract);
-    console.log(address);
-    console.log(connectedAccount);
     setIsLoading(true);
     const Posts = await contract.getSingleUserPost(address);
-    console.log("Context post" + Posts);
-    console.log("Context post wait " + Posts);
     setSingleUserPost(Posts);
     setIsLoading(false);
   };

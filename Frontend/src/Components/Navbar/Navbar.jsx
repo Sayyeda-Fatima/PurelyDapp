@@ -136,7 +136,6 @@ const Navbar = ({ childern }) => {
                 <div className="navbar-desktop-header">
                     {/* <h1>Inscrible</h1> */}
                 </div>
-                <hr />
 
                 <div className="navbar-desktop-menu">
                     <ul className='navbar-desktop-menu_list'>

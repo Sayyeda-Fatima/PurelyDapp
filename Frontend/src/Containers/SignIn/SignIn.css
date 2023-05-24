@@ -51,6 +51,7 @@
     border-radius: 10px;
     border: none;
     background: rgb(3, 138, 255);
+    cursor: pointer;
 }
 
 .signin-button:hover{

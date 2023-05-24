@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Navbar, Loader, SearchCard } from "../../Components/Index";
+import './Search.css';
 
 const Search = () => {
   const navigate = useNavigate();
@@ -57,34 +58,44 @@ const Search = () => {
     <>
       {isSigned ? (
         <>
-          <input
-            className="search"
-            placeholder="Search..."
-            onChange={(e) => setQuery(e.target.value.toLowerCase())}
-          />
-          <Navbar />
-          {isLoading ? (
-            <Loader />
-          ) : userList.length > 0 ? (
-            <>
-             
-              {userList
-                .filter((user) =>
-                  user.username.toLowerCase().includes(query.toLowerCase())
-                )
-                .map((item) => (
-                  <SearchCard
-                    username={item.username}
-                    address={item.accountAddress}
-                    key={item.id}
-                    filteruser={item.username}
-                    filterUserAdress={item.address}
-                  />
-                ))}
-            </>
-          ) : (
-            noPostMsg()
-          )}
+        <Navbar />
+          <div className="search-main-container">          
+            
+            <div className="search-input-container">
+              <span>Search</span>
+              <div className="search-bar-container">
+                <span className="material-symbols-outlined">search</span>
+                <input
+                  className="search-bar"
+                  placeholder="Search..."
+                  onChange={(e) => setQuery(e.target.value.toLowerCase())}
+                />
+              </div>
+            </div>
+            <hr className="search-border"/>
+            {isLoading ? (
+              <Loader />
+            ) : userList.length > 0 ? (
+              <>
+              
+                {userList
+                  .filter((user) =>
+                    user.username.toLowerCase().includes(query.toLowerCase())
+                  )
+                  .map((item) => (
+                    <SearchCard
+                      username={item.username}
+                      address={item.accountAddress}
+                      key={item.id}
+                      filteruser={item.username}
+                      filterUserAdress={item.address}
+                    />
+                  ))}
+              </>
+            ) : (
+              noPostMsg()
+            )}
+          </div>
         </>
       ) : (
         backToSignIn()

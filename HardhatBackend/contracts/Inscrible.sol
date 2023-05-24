@@ -39,7 +39,6 @@ contract Inscrible {
 
 
     mapping(address=>User) userList;
-    // User [] allRegisteredUsers;
     mapping(address=>Post[]) singleUserPostList;
     Post [] allposts;
 
