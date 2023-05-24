@@ -9,7 +9,7 @@ const ProfileHeader = ({}) => {
   const [isPost, setIsPost] = useState(true);
   const [isFollower, setIsFollower] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const { userLists, addFriends, removeFriends } = useContext(InscribleContext);
+  const { userLists, addFriends, removeFriends} = useContext(InscribleContext);
 
   const users = [
     {

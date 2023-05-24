@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import './Navbar.css';
 import { NavLink } from 'react-router-dom';
+import { SearchCard } from '../Index';
+import { InscribleContext } from '../../Context/Context';
 
 const Navbar = ({ childern }) => {
+
+    const { getAllAppUser, userList, connectedAccount, currentUsername } = useContext(InscribleContext);
+
+    const [query, setQuery] = useState("");
+    const [search, setSearch] = useState(false);
 
     const Menu = [
         {
@@ -31,7 +38,7 @@ const Navbar = ({ childern }) => {
             icon: <span className="material-symbols-outlined">sms</span>
         },
         {
-            path: '/profile',
+            path: `/profile/${connectedAccount}/${currentUsername}`,
             element: 'Profile',
             icon: <span className="material-symbols-outlined">account_circle</span>
         }
@@ -69,7 +76,7 @@ const Navbar = ({ childern }) => {
             icon: <span className="material-symbols-outlined">sms</span>
         },
         {
-            path: '/profile',
+            path: `/profile/${connectedAccount}/${currentUsername}`,
             element: 'Profile',
             icon: <span className="material-symbols-outlined">account_circle</span>
         }
@@ -85,8 +92,36 @@ const Navbar = ({ childern }) => {
 
                 <div className="navbar-mobile-search-field">
                     <span className="material-symbols-outlined">search</span>
-                    <input type="text" className='navbar-mobile-search-field_input' placeholder='Search'></input>
+                    <input type="text" className='navbar-mobile-search-field_input' placeholder='Search'
+                        onChange={(e) => setQuery(e.target.value.toLowerCase())}
+                        onClick={async () => {
+                            await getAllAppUser;
+                            if (search === true) {
+                                setSearch(false);
+                            }
+                            else{
+                                setSearch(true);
+                            }
+                        }}
+                    >
+                    </input>
                 </div>
+            </div>
+
+            <div className={search ? "nav-search-div" : 'd-none'}>
+                {userList
+                    .filter((user) =>
+                        user.username.toLowerCase().includes(query.toLowerCase())
+                    )
+                    .map((item) => (
+                        <SearchCard
+                            username={item.username}
+                            address={item.accountAddress}
+                            filteruser={item.username}
+                            filterUserAdress={item.address}
+                            key={item.id}
+                        />
+                    ))}
             </div>
 
             <div className="navbar-mobile-menu">

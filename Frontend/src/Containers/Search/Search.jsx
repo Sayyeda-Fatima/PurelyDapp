@@ -86,9 +86,9 @@ const Search = () => {
                     <SearchCard
                       username={item.username}
                       address={item.accountAddress}
-                      key={item.id}
                       filteruser={item.username}
                       filterUserAdress={item.address}
+                      key={item.id}
                     />
                   ))}
               </>

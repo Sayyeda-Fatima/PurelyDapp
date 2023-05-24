@@ -119,11 +119,14 @@ export const InscribleProvider = ({ children }) => {
     }
   };
 
+  //TO SET THE SIGN IN STATUS OF A USER
   const signInState = (state) => {
     setIsSignedin(state);
 
     localStorage.setItem("isSignedIn", JSON.stringify(state));
   };
+
+  //TO GET ALL USERS REGISTERED IN APP
   const getAllAppUser = async () => {
     console.log("GetAllUser function called");
 
@@ -134,15 +137,19 @@ export const InscribleProvider = ({ children }) => {
 
     setIsLoading(false);
   };
+
+  //TO CHECK THE SIGN IN STATUS OF A USER
   const getSignInState = () => {
     return JSON.parse(localStorage.getItem("isSignedIn"));
   };
 
+  //TO VALIDATE USERNAME
   const ValidateUsername = async (username) => {
     const _username = await contract.getUsername(connectedAccount);
 
     if (username === _username) {
       setCurrentUsername(_username);
+      console.log(currentUsername);
       return true;
     } else {
       return false;

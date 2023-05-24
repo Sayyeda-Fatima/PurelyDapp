@@ -1,7 +1,7 @@
 .search-main-container{
     width: 370px;
     position: absolute;
-    left: 80px;
+    left: 251px;
     border-radius: 0 20px 20px 0;
     border: 1px solid rgb(230, 230, 230);
     flex-wrap: wrap;
@@ -50,4 +50,16 @@
 
 .search-border{
     background-color: rgb(173, 173, 173);
+}
+
+@media screen and (max-width: 1260px) {
+    .search-main-container{
+        left: 80px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .search-main-container{
+        display: none;
+    }
 }
