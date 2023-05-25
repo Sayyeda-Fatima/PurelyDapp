@@ -1,0 +1,26 @@
+.user-card {
+    width: 100%;
+    padding: 0 10px;
+    height: max-content;
+    margin: 25px auto;
+    border: none;
+  }
+  
+.user-card-header {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 50px;
+}
+  
+.user-card-header>img{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+  
+.user-card-info{
+    padding-left: 15px;
+    cursor: pointer;
+}

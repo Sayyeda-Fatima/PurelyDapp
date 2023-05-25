@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const Home = () => {
 
     const navigate = useNavigate();
-    const { GetPostByUser, isLoading, singleUserPost, connectedAccount, getSignInState, ConnectWallet, contract } = useContext(InscribleContext);
+    const { GetPostByUser, isLoading, singleUserPost, connectedAccount, getSignInState, ConnectWallet, contract, GetUserName } = useContext(InscribleContext);
 
     const notify= (msg)=> toast.error(msg);
     const [isSigned, setIsSigned] = useState(false);
@@ -20,6 +20,7 @@ const Home = () => {
         const fetchdata = async ()=>{
             await ConnectWallet();
             await GetPostByUser(connectedAccount);
+            await GetUserName(connectedAccount);
         };
 
         fetchdata();
@@ -29,6 +30,7 @@ const Home = () => {
     useEffect(()=>{
         const fetchdata = async ()=>{
             await GetPostByUser(connectedAccount);
+            await GetUserName(connectedAccount);
         };
 
         fetchdata();

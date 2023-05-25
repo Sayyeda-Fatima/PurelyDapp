@@ -7,6 +7,7 @@ import {
   Create,
   SignIn,
   Search,
+  Message,
 } from "./Containers/Index";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -26,6 +27,7 @@ function App() {
           path="/profile/:address/:username"
           element={<Profile />}
         ></Route>
+        <Route path="/message" element={<Message />}></Route>
       </Routes>
       <ToastContainer />
     </>

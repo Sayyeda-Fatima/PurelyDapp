@@ -37,9 +37,16 @@ contract Inscrible {
         string [] likedByUser;
     }
 
+    struct Message{
+        address sender;
+        uint256 timestamp;
+        string msg;
+    } 
+
 
     mapping(address=>User) userList;
     mapping(address=>Post[]) singleUserPostList;
+    mapping(bytes32=>Message[]) allMessages;
     Post [] allposts;
 
 
@@ -170,6 +177,29 @@ contract Inscrible {
     }
     }
 
+    //TO GET THE CHAT CODE--> WILL DIFFERENTIATE CHAT BETWEEN DIFFERENT USERS
+    function _getChatCode(address pubkey1, address pubkey2) internal pure returns(bytes32){
+        if(pubkey1 < pubkey2){
+            return keccak256(abi.encodePacked(pubkey1, pubkey2));
+        } else 
+        return keccak256(abi.encodePacked(pubkey2, pubkey1));
+    }
+
+    //TO DISPLAY MESSAGES
+    function readMessage(address friend_key) external view returns(Message[] memory){
+        bytes32 chatCode = _getChatCode(msg.sender, friend_key);
+        return allMessages[chatCode];
+    }
+
+    //SEND MESSAGES
+    function sendMessage(address friend_key, string calldata _msg) external{
+        require(checkUser(msg.sender), "Create an account first");
+        require(checkUser(friend_key), "User is not registered");
+
+        bytes32 chatCode = _getChatCode(msg.sender, friend_key);
+        Message memory newMsg = Message(msg.sender, block.timestamp, _msg);
+        allMessages[chatCode].push(newMsg);
+    }
     
     receive() external payable {}
 }

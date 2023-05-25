@@ -6,5 +6,6 @@ import ProfileUserCard from "./ProfileUserCard/ProfileUserCard";
 import Discard from "./Discard/Discard";
 import Loader from "./Loader/Loader";
 import SearchCard from "./SearchCard/SearchCard";
+import UserCard from "./UserCard/UserCard";
 
-export {PostCard, Navbar, ProfileHeader, ProfilePosts, ProfileUserCard, Discard, Loader, SearchCard};
+export {PostCard, Navbar, ProfileHeader, ProfilePosts, ProfileUserCard, Discard, Loader, SearchCard, UserCard};

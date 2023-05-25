@@ -58,9 +58,9 @@ const Search = () => {
     <>
       {isSigned ? (
         <>
-        <Navbar />
-          <div className="search-main-container">          
-            
+          <Navbar />
+          <div className="search-main-container">
+
             <div className="search-input-container">
               <span>Search</span>
               <div className="search-bar-container">
@@ -72,23 +72,28 @@ const Search = () => {
                 />
               </div>
             </div>
-            <hr className="search-border"/>
+            <hr className="search-border" />
             {isLoading ? (
               <Loader />
             ) : userList.length > 0 ? (
               <>
-              
+
                 {userList
                   .filter((user) =>
                     user.username.toLowerCase().includes(query.toLowerCase())
+                  )
+                  .filter(
+                    (user) =>
+                      user.accountAddress.toLowerCase() !==
+                      connectedAccount.toLowerCase()
                   )
                   .map((item) => (
                     <SearchCard
                       username={item.username}
                       address={item.accountAddress}
+                      key={item.id}
                       filteruser={item.username}
                       filterUserAdress={item.address}
-                      key={item.id}
                     />
                   ))}
               </>

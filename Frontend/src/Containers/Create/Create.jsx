@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Create.css';
 import { Navbar, Discard, Loader } from '../../Components/Index';
 import { useNavigate } from 'react-router';
@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const Create = () => {
 
-    const { currentUsername, connectedAccount, UploadPost, isLoading, setIsLoading } = useContext(InscribleContext);
+    const { currentUsername, UploadPost, isLoading, setIsLoading, getSignInState } = useContext(InscribleContext);
     const notify = (msg) => toast.error(msg);
 
     const navigate = useNavigate();
@@ -22,6 +22,13 @@ const Create = () => {
         caption: "",
         imgTxt: ""
     });
+
+    useEffect(()=>{
+        const state = getSignInState();
+        if (!state) {
+            navigate('/');
+        }
+    },[]);
 
     const handleInput = (e) => {
         const name = e.target.name;

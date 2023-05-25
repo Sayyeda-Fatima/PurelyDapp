@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import './Navbar.css';
 import { NavLink } from 'react-router-dom';
 import { SearchCard } from '../Index';
@@ -6,10 +6,17 @@ import { InscribleContext } from '../../Context/Context';
 
 const Navbar = ({ childern }) => {
 
-    const { getAllAppUser, userList, connectedAccount, currentUsername } = useContext(InscribleContext);
+    const { getAllAppUser, userList, connectedAccount, currentUsername, GetUserName } = useContext(InscribleContext);
 
     const [query, setQuery] = useState("");
     const [search, setSearch] = useState(false);
+
+    useEffect(()=>{
+        const fetchdata = async ()=>{
+            await GetUserName(connectedAccount);
+        };
+        fetchdata();
+    },[])
 
     const Menu = [
         {
@@ -33,7 +40,7 @@ const Navbar = ({ childern }) => {
             icon: <span className="material-symbols-outlined">add_circle</span>
         },
         {
-            path: 'message',
+            path: '/message',
             element: 'Message',
             icon: <span className="material-symbols-outlined">sms</span>
         },
@@ -71,7 +78,7 @@ const Navbar = ({ childern }) => {
             icon: <span className="material-symbols-outlined">add_circle</span>
         },
         {
-            path: 'message',
+            path: '/message',
             element: 'Message',
             icon: <span className="material-symbols-outlined">sms</span>
         },

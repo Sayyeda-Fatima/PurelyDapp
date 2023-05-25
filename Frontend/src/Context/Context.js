@@ -8,25 +8,25 @@ export const InscribleContext = React.createContext();
 
 
 const FetchContract = (signerProvider) =>
-    new ethers.Contract(contractAddress, contractABI, signerProvider);
+  new ethers.Contract(contractAddress, contractABI, signerProvider);
 
 //FUNCTION TO CREATE CONTRACT
 const CreateContract = async () => {
-    try {
-        //CREATING A ETHEREUM PROVIDER AND GETTING THE SIGNER
-        const web3modal = new Web3Modal();
-        const connection = await web3modal.connect();
-        const provider = new ethers.providers.Web3Provider(connection);
-        const signer = provider.getSigner();
+  try {
+    //CREATING A ETHEREUM PROVIDER AND GETTING THE SIGNER
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
 
-        //SENDING THE SIGNER TO FetchContract FUNCTION TO GET THE SMART CONTRACT
-        const contract = FetchContract(signer);
+    //SENDING THE SIGNER TO FetchContract FUNCTION TO GET THE SMART CONTRACT
+    const contract = FetchContract(signer);
 
-        return contract;
-    } 
-    catch (error) {
-        console.log(error);
-    }
+    return contract;
+  }
+  catch (error) {
+    console.log(error);
+  }
 };
 
 
@@ -42,6 +42,9 @@ export const InscribleProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userList, setUserLists] = useState([]);
   const [friendLists, setFriendLists] = useState([]);
+  const [messangerName, setMessangerName] = useState("");
+  const [messangerAddress, setMessangerAddress] = useState("");
+  const [friendMsg, setFriendMsg] = useState([]);
   const [error, setError] = useState("");
 
   //FUNCTION TO GET THE CONNECTED ACCOUNT
@@ -58,7 +61,7 @@ export const InscribleProvider = ({ children }) => {
         console.log("in wallet...........");
         window.location.reload(true);
       });
-    
+
       //GETTING ACCOUTNS ARRAY FROM ETHEREUM/METAMASK
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
@@ -86,7 +89,7 @@ export const InscribleProvider = ({ children }) => {
       // const contract = await ConnectWallet();
       const addMyFriend = await contract.addFriend(accountAddress, name);
       await addMyFriend.wait();
-    
+
     } catch (error) {
       setError("Something went wrong while adding friends, try again");
     }
@@ -149,13 +152,19 @@ export const InscribleProvider = ({ children }) => {
 
     if (username === _username) {
       setCurrentUsername(_username);
-      console.log(currentUsername);
       return true;
     } else {
       return false;
     }
   };
 
+  //TO GET A USERS NAME
+  const GetUserName = async (account)=>{
+    const _user = await contract.getUsername(account);
+    setCurrentUsername(_user);
+  };
+
+  //TO UPLOAD A NEW POST BY A USER
   const UploadPost = async (imageHash, caption, imageText) => {
     setIsLoading(true);
     const uploaded = await contract.addPostImage(imageHash, caption, imageText);
@@ -163,6 +172,7 @@ export const InscribleProvider = ({ children }) => {
     setIsLoading(false);
   };
 
+  //TO GET ALL POSTS OF APP
   const GetAllPosts = async () => {
     setIsLoading(true);
     const Posts = await contract.GetAllPosts();
@@ -171,11 +181,35 @@ export const InscribleProvider = ({ children }) => {
     setIsLoading(false);
   };
 
+  //TO GET POSTS OF A SINGLE USER
   const GetPostByUser = async (address) => {
     setIsLoading(true);
     const Posts = await contract.getSingleUserPost(address);
     setSingleUserPost(Posts);
     setIsLoading(false);
+  };
+
+  //READ MESSAGE/GET ALL MESSAGES
+  const readMessage = async (friendAddress) => {
+    try {
+      const read = await contract.readMessage(friendAddress);
+      setFriendMsg(read);
+    } catch (error) {
+      console.log("Currently You Have no Message");
+    }
+  };
+
+  //SEND MESSAGE TO YOUR FRIEND
+  const SendMessage = async (msg, address ) => {
+    try {
+      const addMessage = await contract.sendMessage(address, msg);
+      setIsLoading(true);
+      await addMessage.wait();
+      setIsLoading(false);
+      // window.location.reload();
+    } catch (error) {
+      setError("Please reload and try again");
+    }
   };
 
   useEffect(() => {
@@ -203,6 +237,11 @@ export const InscribleProvider = ({ children }) => {
         setFriendLists,
         addFriends,
         removeFriends,
+        setMessangerAddress,
+        setMessangerName,
+        readMessage,
+        SendMessage,
+        GetUserName,
         isMetamask,
         connectedAccount,
         contract,
@@ -211,8 +250,11 @@ export const InscribleProvider = ({ children }) => {
         allPosts,
         singleUserPost,
         isLoading,
-        friendLists, 
+        friendLists,
         userList,
+        messangerName,
+        messangerAddress,
+        friendMsg
       }}
     >
       {children}
