@@ -45,7 +45,7 @@ const Navbar = ({ childern }) => {
             icon: <span className="material-symbols-outlined">sms</span>
         },
         {
-            path: `/profile/${connectedAccount}/${currentUsername}`,
+            path: `/profile`,
             element: 'Profile',
             icon: <span className="material-symbols-outlined">account_circle</span>
         }
@@ -83,7 +83,7 @@ const Navbar = ({ childern }) => {
             icon: <span className="material-symbols-outlined">sms</span>
         },
         {
-            path: `/profile/${connectedAccount}/${currentUsername}`,
+            path: `/profile`,
             element: 'Profile',
             icon: <span className="material-symbols-outlined">account_circle</span>
         }

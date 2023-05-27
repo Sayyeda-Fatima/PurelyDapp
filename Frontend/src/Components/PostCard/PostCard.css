@@ -58,11 +58,6 @@
     cursor: pointer;
 }
 
-svg>path:hover{
-    fill: red;
-    stroke: none;
-}
-
 .card-content-tip{
     position: absolute;
     right: 10px;
@@ -104,8 +99,15 @@ svg>path:hover{
     cursor: pointer;
 }
 
+.cursor{
+    cursor: pointer;
+}
+
 @media screen and (max-width: 500px){
     .card{
         width: 300px;
+    }
+    .card-header-address{
+        display: none;
     }
 }

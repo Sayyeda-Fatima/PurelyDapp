@@ -8,6 +8,7 @@ import {
   SignIn,
   Search,
   Message,
+  MyProfile,
 } from "./Containers/Index";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/create" element={<Create />}></Route>
         <Route path="/search" element={<Search />}></Route>
+        <Route path="/profile" element={<MyProfile />}></Route>
         <Route
           path="/profile/:address/:username"
           element={<Profile />}

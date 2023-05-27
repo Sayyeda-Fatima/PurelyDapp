@@ -241,7 +241,7 @@ contract Inscrible {
         return allposts;
     }
     
-   function getAllAppUser() public view returns(AllUserStruck[] memory){
+    function getAllAppUser() public view returns(AllUserStruck[] memory){
         return AllUsers;
     }
 
@@ -281,6 +281,12 @@ contract Inscrible {
         bytes32 chatCode = _getChatCode(msg.sender, friend_key);
         Message memory newMsg = Message(msg.sender, block.timestamp, _msg);
         allMessages[chatCode].push(newMsg);
+    }
+
+    //TO GET A USERS POST FOR PROFILE
+    function getMyProfilePost (address _user) public view returns(Post [] memory)
+    {   
+        return userList[_user].myPosts;
     }
     
     receive() external payable {}

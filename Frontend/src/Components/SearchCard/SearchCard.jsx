@@ -17,7 +17,6 @@ const SearchCard = ({
   
   const handleClick = () => {
     navigate(`/profile/${address}/${username}/`);
-    console.log({username});
   };
 
   return (
