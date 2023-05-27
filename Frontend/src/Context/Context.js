@@ -37,6 +37,7 @@ export const InscribleProvider = ({ children }) => {
   const [contract, setContract] = useState(null);
   const [isSignedin, setIsSignedin] = useState(false);
   const [currentUsername, setCurrentUsername] = useState("");
+  const [currentUserProfile, setCurrentUserProfile] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [singleUserPost, setSingleUserPost] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -138,8 +139,8 @@ export const InscribleProvider = ({ children }) => {
   };
 
   //TO REGISTER USER
-  const RegisterUser = async (username) => {
-    const createdUser = await contract.createAccount(username);
+  const RegisterUser = async (username, img) => {
+    const createdUser = await contract.createAccount(username, img);
     await createdUser.wait();
   };
 
@@ -189,10 +190,12 @@ export const InscribleProvider = ({ children }) => {
     }
   };
 
-  //TO GET A USERS NAME
+  //TO GET A USERS NAME and PROFILE
   const GetUserName = async (account)=>{
     const _user = await contract.getUsername(account);
     setCurrentUsername(_user);
+    const _profile = await contract.getProfilePic(account);
+    setCurrentUserProfile(_profile);
   };
 
   //TO UPLOAD A NEW POST BY A USER
@@ -300,7 +303,8 @@ export const InscribleProvider = ({ children }) => {
         friendMsg,
         myProfilePosts,
         followerLists,
-        followingLists
+        followingLists,
+        currentUserProfile
       }}
     >
       {children}

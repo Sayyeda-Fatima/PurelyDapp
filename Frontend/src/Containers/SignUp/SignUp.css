@@ -70,6 +70,12 @@
     color: blue;
 }
 
+.signup-pic{
+    font-size: large;
+    margin-top: 15px;
+    color: blue;
+}
+
 @media screen and (max-width: 360px) {
     .signup-container{
         width: 200px;

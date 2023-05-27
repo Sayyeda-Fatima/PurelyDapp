@@ -13,7 +13,7 @@ import {
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ProfileHeader } from "./Components/Index";
+import { ProfilePic } from "./Components/Index";
 
 function App() {
   return (
@@ -25,11 +25,9 @@ function App() {
         <Route path="/create" element={<Create />}></Route>
         <Route path="/search" element={<Search />}></Route>
         <Route path="/profile" element={<MyProfile />}></Route>
-        <Route
-          path="/profile/:address/:username"
-          element={<Profile />}
-        ></Route>
+        <Route path="/profile/:address/:username" element={<Profile />}></Route>
         <Route path="/message" element={<Message />}></Route>
+        <Route path="/edit" element={<ProfilePic />}></Route>
       </Routes>
       <ToastContainer />
     </>

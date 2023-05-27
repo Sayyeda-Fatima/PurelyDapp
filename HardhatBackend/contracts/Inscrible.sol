@@ -9,12 +9,13 @@ contract Inscrible {
         friend[] followersList;
         friend[] followingsList;
         Post [] myPosts;
-        // string profilePic; do add later
+        string profilePic;
     }
 
     struct AllUserStruck{
         string username;
         address accountAddress;
+        string profilePic;
     }
     
    struct friend{
@@ -67,13 +68,20 @@ contract Inscrible {
         return userList[key].username;
     }
 
+    //GET PROFILE PIC OF A USER
+    function getProfilePic(address key) public view returns (string memory){
+        return userList[key].profilePic;
+    }
+
     //CREATE ACCOUNT
-    function createAccount(string calldata _username) external {
+    function createAccount(string calldata _username, string calldata img) external {
         require(checkUser(msg.sender) == false, "User alredy has an account!");
         require(bytes(_username).length > 0, "User name should not be empty!");
+        require(bytes(img).length > 0, "Profile pic should not be empty");
 
         userList[msg.sender].username = _username;
-        AllUsers.push(AllUserStruck(_username, msg.sender));
+        userList[msg.sender].profilePic = img;
+        AllUsers.push(AllUserStruck(_username, msg.sender, img));
     }
 
     //TO ADD A FRIEND TO USER
@@ -103,11 +111,6 @@ contract Inscrible {
         friend memory newFollowing = friend(following_key, userList[following_key].username);
         userList[me].followingsList.push(newFollowing);
     }
-
-    // //GETMY FRIEND
-    // function getMyFriendList() external view returns(friend[] memory){
-    //     return userList[msg.sender].friendList;
-    // }
 
     //FUNCTION TO REMOVE A FRIEND
     function removeFriend(address followingAddress) public {

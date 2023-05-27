@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./MyProfileHeader.css";
 import { ProfilePosts, MyProfileUserCard } from "../Index";
-
 import { InscribleContext } from "../../Context/Context";
+import { useNavigate } from "react-router";
 
 const MyProfileHeader = ({}) => {
   const [isPost, setIsPost] = useState(true);
@@ -17,7 +17,10 @@ const MyProfileHeader = ({}) => {
     myProfilePosts,
     currentUsername,
     GetUserName,
+    currentUserProfile
   } = useContext(InscribleContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!contract) {
@@ -46,9 +49,7 @@ const MyProfileHeader = ({}) => {
       <div className="profile-header">
         <div className="profile-header_image">
           <img
-            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?
-                        ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=
-                        format&fit=crop&w=1170&q=80"
+            src={`https://gateway.pinata.cloud/ipfs/${currentUserProfile.substring(6)}`}
             alt="Pofile"
           />
         </div>
@@ -57,7 +58,7 @@ const MyProfileHeader = ({}) => {
             <p id="profile-name" className="bold-5 size-l">
               {currentUsername}
             </p>
-            <button className="btn-Edit">Edit</button>
+            <button className="btn-Edit" onClick={()=>navigate('/edit')}>Edit</button>
           </div>
           <div className="profile-header_content-info">
             <div>

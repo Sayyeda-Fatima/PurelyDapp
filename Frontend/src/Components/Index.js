@@ -11,6 +11,7 @@ import MyProfileHeader from "./MyProfileHeader/MyProfileHeader";
 import UnFollowModal from "./UnFollowModal/UnFollowModal";
 import RemoveFollowerModal from "./RemoveFollowerModal/RemoveFollowerModal";
 import UserCard from './UserCard/UserCard';
+import ProfilePic from "./ProfilePic/ProfilePic";
 export {
   PostCard,
   Navbar,
@@ -24,5 +25,6 @@ export {
   MyProfileUserCard,
   UnFollowModal,
   RemoveFollowerModal,
-  UserCard
+  UserCard,
+  ProfilePic
 };
