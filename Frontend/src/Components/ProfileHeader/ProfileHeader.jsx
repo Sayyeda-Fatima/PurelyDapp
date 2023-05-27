@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./ProfileHeader.css";
 import { ProfilePosts, ProfileUserCard } from "../Index";
 import { useLocation } from "react-router-dom";
@@ -9,7 +9,63 @@ const ProfileHeader = ({}) => {
   const [isPost, setIsPost] = useState(true);
   const [isFollower, setIsFollower] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const { addFriends, removeFriends} = useContext(InscribleContext);
+  const [isFollowingBtn, setIsFollowingBtn] = useState(false);
+  const [followerListing, setfollowerListing] = useState([]);
+  const [followingList, setfollowingList] = useState([]);
+  const {
+    userLists,
+    addFriends,
+    removeFriends,
+    checkAlreadyFriend,
+    ConnectWallet,
+    connectedAccount,
+    contract,
+    getMyProfilePost,
+    myProfilePosts,
+  } = useContext(InscribleContext);
+
+  const getFollowers = async () => {
+    const followerListing = await contract.getMyFollowersList(address);
+    setfollowerListing(followerListing);
+  };
+
+  const getFollowing = async () => {
+    const followingList = await contract.getMyFollowingsList(address);
+    setfollowingList(followingList);
+  };
+
+  useEffect(() => {
+    const checkFriends = async () => {
+      const isFollowStatus = await checkAlreadyFriend({
+        connectedAccountAddress: connectedAccount,
+        accountAddress: address,
+      });
+      setIsFollowingBtn(isFollowStatus);
+      console.log("isFollowStatus    " + isFollowStatus);
+    };
+
+    checkFriends();
+    getFollowing();
+    getFollowers();
+    getMyProfilePost(address);
+  }, [connectedAccount, contract]);
+
+  const { username, address } = useParams();
+
+  // Function to handle the follow/unfollow action
+  const handleFollowToggle = async () => {
+    if (isFollowingBtn) {
+      // Perform the unfollow action
+      await removeFriends({ accountAddress: address });
+      setIsFollowingBtn(false); // Update the state to reflect unfollowing
+      await getFollowers(); // Update the follower list
+    } else {
+      // Perform the follow action
+      await addFriends({ accountAddress: address });
+      setIsFollowingBtn(true); // Update the state to reflect following
+      await getFollowers(); // Update the follower list
+    }
+  };
 
   const users = [
     {
@@ -33,7 +89,6 @@ const ProfileHeader = ({}) => {
       address: "0x00030503554385247875847200048nt2457vn",
     },
   ];
-  const { username, address } = useParams();
 
   return (
     <>

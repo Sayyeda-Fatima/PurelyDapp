@@ -67,8 +67,8 @@ const Create = () => {
                 url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
                 data: formData,
                 headers: {
-                    pinata_api_key: `9fb649761b35eaeed2fd`,
-                    pinata_secret_api_key: `3bd0c4fcfd38a4594d59561d5600a4ac282de92caa00ff36b3f6b98b25a60227`,
+                    pinata_api_key: `d197e147935b17d3208e`,
+                    pinata_secret_api_key: `8dd2463b95e8afc7d062b1d41efe12e57d15ee54116d9d0e320445ce92e94882`,
                     "Content-Type": "multipart/form-data",
                 },
             });

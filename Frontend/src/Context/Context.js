@@ -45,6 +45,9 @@ export const InscribleProvider = ({ children }) => {
   const [messangerName, setMessangerName] = useState("");
   const [messangerAddress, setMessangerAddress] = useState("");
   const [friendMsg, setFriendMsg] = useState([]);
+  const [myProfilePosts, setmyProfilePosts] = useState([]);
+  const [followerLists, setfollowerLists] = useState([]);
+  const [followingLists, setfollowingLists] = useState([]);
   const [error, setError] = useState("");
 
   //FUNCTION TO GET THE CONNECTED ACCOUNT
@@ -70,13 +73,9 @@ export const InscribleProvider = ({ children }) => {
       //GETTING FIRST ACCOUNT FROM ACCOUNTS ARRAY
       const firstAccount = accounts[0];
       setConnectedAccount(firstAccount);
-
       const _contract = await CreateContract();
-
-      setContract(_contract);
-
-      const friendLists = await _contract.getMyFriendList();
-      setFriendLists(friendLists);
+      setContract(_contract);      
+      setCurrentUsername(firstAccount.username);
     } catch (error) {
       console.log(error);
     }
@@ -87,11 +86,30 @@ export const InscribleProvider = ({ children }) => {
     try {
 
       // const contract = await ConnectWallet();
-      const addMyFriend = await contract.addFriend(accountAddress, name);
+      const addMyFriend = await contract.addFriend(accountAddress);
       await addMyFriend.wait();
 
     } catch (error) {
       setError("Something went wrong while adding friends, try again");
+    }
+  };
+
+  //FRIEND VALIDATION
+  const checkAlreadyFriend = async ({
+    connectedAccountAddress,
+    accountAddress,
+  }) => {
+    try {
+      
+      const checkFriend = await contract.checkAlreadyFriends(
+        connectedAccountAddress,
+        accountAddress
+      );
+      return checkFriend;
+    } catch (error) {
+      console.log(error);
+      setError("Something went wrong while adding friends, try again");
+      return false;
     }
   };
 
@@ -102,6 +120,19 @@ export const InscribleProvider = ({ children }) => {
       const removeMyFriend = await contract.removeFriend(accountAddress);
       await removeMyFriend.wait();
     } catch (error) {
+      setError("Something went wrong while adding friends, try again");
+    }
+  };
+
+  //REMOVE FOLLOWER
+  const removeFollower = async ({ accountAddress }) => {
+    try {
+      const removeMyFriendFollower = await contract.removeFollower(
+        accountAddress
+      );
+      await removeMyFriendFollower.wait();
+    } catch (error) {
+      console.log(error);
       setError("Something went wrong while adding friends, try again");
     }
   };
@@ -212,6 +243,12 @@ export const InscribleProvider = ({ children }) => {
     }
   };
 
+  //RETURN POST OF A SPECIFIC USER
+  const getMyProfilePost = async (address) => {
+    const Posts = await contract.getMyProfilePost(address);
+    setmyProfilePosts(Posts);
+  };
+
   useEffect(() => {
     const getAccount = async () => {
       await ConnectWallet();
@@ -242,6 +279,12 @@ export const InscribleProvider = ({ children }) => {
         readMessage,
         SendMessage,
         GetUserName,
+        setmyProfilePosts,
+        setfollowerLists,
+        setfollowingLists,
+        checkAlreadyFriend,
+        removeFollower,
+        getMyProfilePost,
         isMetamask,
         connectedAccount,
         contract,
@@ -254,7 +297,10 @@ export const InscribleProvider = ({ children }) => {
         userList,
         messangerName,
         messangerAddress,
-        friendMsg
+        friendMsg,
+        myProfilePosts,
+        followerLists,
+        followingLists
       }}
     >
       {children}
